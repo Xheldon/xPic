@@ -9,6 +9,16 @@
       content="xPic 是一款 macOS / Windows 桌面应用，支持图片格式转换、压缩、裁剪、序列帧合成、SVGA 预览、视频转动图与工作流，本地处理、快速、隐私安全。"
     />
     <link rel="icon" href="./assets/icon.png" />
+    <!-- 在 CSS 生效前按 localStorage/系统设置主题，避免首屏闪烁 -->
+    <script>
+      (function () {
+        var t = localStorage.getItem('xpic-site-theme');
+        if (t !== 'light' && t !== 'dark') {
+          t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', t);
+      })();
+    </script>
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
@@ -18,9 +28,9 @@
         <span>xPic</span>
       </a>
       <nav class="nav-links">
-        <a href="#features">功能</a>
-        <a href="#download">下载</a>
-        <a href="/changelog">更新日志</a>
+        <a href="#features" data-i18n="nav.features">功能</a>
+        <a href="#download" data-i18n="nav.download">下载</a>
+        <a href="/changelog" data-i18n="nav.changelog">更新日志</a>
         <a
           class="nav-gh"
           href="https://github.com/Xheldon/xPic/releases"
@@ -28,6 +38,10 @@
           rel="noreferrer"
           >Releases</a
         >
+        <span class="nav-actions">
+          <button type="button" class="icon-btn" id="lang-toggle" title="中 / EN">EN</button>
+          <button type="button" class="icon-btn" id="theme-toggle" aria-label="theme"></button>
+        </span>
       </nav>
     </header>
 
@@ -35,13 +49,13 @@
       <section class="hero">
         <div class="hero-copy">
           <div class="badge" id="version-badge">桌面应用 · macOS / Windows</div>
-          <h1>把图片<em>转</em>、<em>压</em>、<em>裁</em>，一个应用搞定</h1>
-          <p class="lead">
+          <h1 data-i18n="hero.title">把图片<em>转</em>、<em>压</em>、<em>裁</em>，一个应用搞定</h1>
+          <p class="lead" data-i18n="hero.lead">
             格式转换、批量压缩、裁剪缩放、序列帧合成、SVGA 预览、视频转动图，
             还有可编排的<strong>工作流</strong>。全部本地处理，快、稳、隐私安全。
           </p>
           <div class="cta" id="download-top">
-            <a class="btn btn-primary" id="primary-dl" href="#download">
+            <a class="btn btn-primary" id="primary-dl" href="#download" data-i18n="hero.download">
               下载 xPic
             </a>
             <a
@@ -56,34 +70,35 @@
         </div>
         <div class="hero-shot">
           <img
-            src="./assets/screenshot.png"
-            alt="xPic 界面截图"
+            id="hero-shot"
+            src="./assets/screenshot-light-zh.png"
+            alt="xPic"
             onerror="this.style.display='none'"
           />
         </div>
       </section>
 
       <section id="features" class="features">
-        <h2>它能做什么</h2>
+        <h2 data-i18n="features.title">它能做什么</h2>
         <div class="grid">
-          <div class="card"><h3>格式转换</h3><p>JPG/PNG/WebP/AVIF/HEIC/GIF 等互转，支持动图与批量。</p></div>
-          <div class="card"><h3>图片压缩</h3><p>可控质量批量压缩，webp/gif 动图也能压。</p></div>
-          <div class="card"><h3>图片裁剪</h3><p>比例 / 自由 / 固定尺寸 / 按目标大小（自动找质量）。</p></div>
-          <div class="card"><h3>序列帧合成</h3><p>多张图合成动态 WebP，自定义循环与帧间隔。</p></div>
-          <div class="card"><h3>SVGA 预览</h3><p>直接在应用里预览 SVGA 动画。</p></div>
-          <div class="card"><h3>视频处理</h3><p>视频格式转换、压缩、转 GIF/WebP/APNG 动图。</p></div>
-          <div class="card"><h3>工作流</h3><p>把转换/压缩/裁剪/合成串成一条流水线，一键跑完。</p></div>
-          <div class="card"><h3>本地 &amp; 隐私</h3><p>全部在你电脑上处理，文件不上传任何服务器。</p></div>
+          <div class="card"><h3 data-i18n="f.convert">格式转换</h3><p data-i18n="f.convert.d">JPG/PNG/WebP/AVIF/HEIC/GIF 等互转，支持动图与批量。</p></div>
+          <div class="card"><h3 data-i18n="f.compress">图片压缩</h3><p data-i18n="f.compress.d">可控质量批量压缩，webp/gif 动图也能压。</p></div>
+          <div class="card"><h3 data-i18n="f.crop">图片裁剪</h3><p data-i18n="f.crop.d">比例 / 自由 / 固定尺寸 / 按目标大小（自动找质量）。</p></div>
+          <div class="card"><h3 data-i18n="f.merge">序列帧合成</h3><p data-i18n="f.merge.d">多张图合成动态 WebP，自定义循环与帧间隔。</p></div>
+          <div class="card"><h3 data-i18n="f.svga">SVGA 预览</h3><p data-i18n="f.svga.d">直接在应用里预览 SVGA 动画。</p></div>
+          <div class="card"><h3 data-i18n="f.video">视频处理</h3><p data-i18n="f.video.d">视频格式转换、压缩、转 GIF/WebP/APNG 动图。</p></div>
+          <div class="card"><h3 data-i18n="f.workflow">工作流</h3><p data-i18n="f.workflow.d">把转换/压缩/裁剪/合成串成一条流水线，一键跑完。</p></div>
+          <div class="card"><h3 data-i18n="f.local">本地 &amp; 隐私</h3><p data-i18n="f.local.d">全部在你电脑上处理，文件不上传任何服务器。</p></div>
         </div>
       </section>
 
       <section id="download" class="download">
-        <h2>下载</h2>
+        <h2 data-i18n="dl.title">下载</h2>
         <p class="download-hint" id="download-version">正在获取最新版本…</p>
         <div class="dl-grid" id="dl-grid">
           <!-- 下载按钮由 JS 从 GitHub Releases API 注入 -->
         </div>
-        <p class="download-foot">
+        <p class="download-foot" data-i18n="dl.foot">
           所有安装包来自
           <a
             href="https://github.com/Xheldon/xPic/releases/latest"
@@ -99,8 +114,8 @@
       <span>© <span id="year"></span> Xheldon · MIT</span>
       <span class="foot-links">
         <a href="https://github.com/Xheldon/xPic" target="_blank" rel="noreferrer">GitHub</a>
-        <a href="/changelog">更新日志</a>
-        <a href="https://www.xheldon.com/about/" target="_blank" rel="noreferrer">关于作者</a>
+        <a href="/changelog" data-i18n="nav.changelog">更新日志</a>
+        <a href="https://www.xheldon.com/about/" target="_blank" rel="noreferrer" data-i18n="nav.about">关于作者</a>
       </span>
     </footer>
 

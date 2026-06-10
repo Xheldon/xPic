@@ -1,5 +1,43 @@
 // 更新日志：早期 Beta 为静态历史归档；GitHub Releases 上的版本自动读取并渲染（发版即更新）。
+import { initChrome, getLang } from './shared.js';
+
 const REPO = 'Xheldon/xPic';
+
+const DICTS = {
+  zh: {
+    'meta.title': 'xPic 更新日志',
+    'meta.desc': 'xPic 各版本的更新内容（changelog）。',
+    'nav.features': '功能',
+    'nav.download': '下载',
+    'nav.changelog': '更新日志',
+    'nav.home': '首页',
+    'cl.title': '更新日志',
+    'cl.sub':
+      '最新版本会自动从 <a href="https://github.com/Xheldon/xPic/releases" target="_blank" rel="noreferrer">GitHub Releases</a> 读取；早期 Beta 版本为历史归档。',
+    'cl.archive': '归档',
+    'cl.features': '新功能',
+    'cl.fixes': '修复',
+    'cl.empty': '（无更新说明）',
+    'cl.none': '暂无更新日志。',
+  },
+  en: {
+    'meta.title': 'xPic Changelog',
+    'meta.desc': 'Release notes for every xPic version.',
+    'nav.features': 'Features',
+    'nav.download': 'Download',
+    'nav.changelog': 'Changelog',
+    'nav.home': 'Home',
+    'cl.title': 'Changelog',
+    'cl.sub':
+      'Latest versions are read from <a href="https://github.com/Xheldon/xPic/releases" target="_blank" rel="noreferrer">GitHub Releases</a> automatically; early betas are archived below.',
+    'cl.archive': 'Archive',
+    'cl.features': 'Features',
+    'cl.fixes': 'Fixes',
+    'cl.empty': '(no notes)',
+    'cl.none': 'No changelog yet.',
+  },
+};
+const t = (k) => (DICTS[getLang()] || DICTS.zh)[k] ?? k;
 
 // 早期 Beta 历史（GitHub Releases 之前的版本，归档自旧官网 blog）
 const HISTORY = [
@@ -73,10 +111,10 @@ function renderHistory(e) {
     <div class="cl-entry">
       <div class="cl-ver"><h2>${esc(e.version)}</h2><span class="cl-date">${esc(
         e.date
-      )}</span><span class="cl-tag">归档</span></div>
+      )}</span><span class="cl-tag">${t('cl.archive')}</span></div>
       ${e.note ? `<div class="cl-note">${esc(e.note)}</div>` : ''}
-      ${sec('新功能', e.features)}
-      ${sec('修复', e.bugfixes)}
+      ${sec(t('cl.features'), e.features)}
+      ${sec(t('cl.fixes'), e.bugfixes)}
     </div>`;
 }
 
@@ -120,40 +158,41 @@ function md(src) {
 
 function renderRelease(r) {
   const date = r.published_at
-    ? new Date(r.published_at).toLocaleDateString('zh-CN')
+    ? new Date(r.published_at).toLocaleDateString(getLang() === 'zh' ? 'zh-CN' : 'en-US')
     : '';
   return `
     <div class="cl-entry">
       <div class="cl-ver"><h2>${esc(r.tag_name || r.name)}</h2><span class="cl-date">${esc(
         date
       )}</span></div>
-      <div class="cl-body">${r.body ? md(r.body) : '<p>（无更新说明）</p>'}</div>
+      <div class="cl-body">${r.body ? md(r.body) : `<p>${t('cl.empty')}</p>`}</div>
     </div>`;
 }
 
-(async () => {
+let releaseList = [];
+
+function renderAll() {
   const el = document.getElementById('changelog');
-  let releasesHtml = '';
+  const histVers = new Set(HISTORY.map((h) => h.version.replace(/^v/, '')));
+  const releasesHtml = releaseList
+    .filter((r) => !r.draft && !histVers.has((r.tag_name || '').replace(/^v/, '')))
+    .map(renderRelease)
+    .join('');
+  el.innerHTML = releasesHtml + HISTORY.map(renderHistory).join('');
+  if (!el.innerHTML.trim()) el.innerHTML = `<p class="cl-loading">${t('cl.none')}</p>`;
+}
+
+initChrome(DICTS, () => renderAll());
+
+(async () => {
   try {
     const res = await fetch(
       `https://api.github.com/repos/${REPO}/releases?per_page=100`,
       { headers: { Accept: 'application/vnd.github+json' } }
     );
-    if (res.ok) {
-      const releases = await res.json();
-      const histVers = new Set(HISTORY.map((h) => h.version.replace(/^v/, '')));
-      releasesHtml = releases
-        .filter(
-          (r) => !r.draft && !histVers.has((r.tag_name || '').replace(/^v/, ''))
-        )
-        .map(renderRelease)
-        .join('');
-    }
+    if (res.ok) releaseList = await res.json();
   } catch (e) {
     /* 离线 / 无 release 时仅展示历史归档 */
   }
-
-  el.innerHTML = releasesHtml + HISTORY.map(renderHistory).join('');
-  if (!el.innerHTML.trim())
-    el.innerHTML = '<p class="cl-loading">暂无更新日志。</p>';
+  renderAll();
 })();

@@ -1,5 +1,7 @@
-/* xPic 官网样式 —— 与桌面应用同一套设计语言（accent #007aff），明暗自适应。 */
-:root {
+/* xPic 官网样式 —— 与桌面应用同一套设计语言（accent #007aff）。
+   主题由 [data-theme] 控制（头部内联脚本按 localStorage/系统尽早设置，避免闪烁）。 */
+:root,
+:root[data-theme='light'] {
   --bg: #ffffff;
   --bg-soft: #f5f7fa;
   --bg-card: #ffffff;
@@ -16,20 +18,18 @@
   --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
     'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0f1216;
-    --bg-soft: #14181d;
-    --bg-card: #181d23;
-    --text-1: #eef1f4;
-    --text-2: #a3acb6;
-    --text-3: #6b747e;
-    --border: rgba(255, 255, 255, 0.1);
-    --accent: #0a84ff;
-    --accent-2: #4aa3ff;
-    --accent-fg: #0a0d10;
-    --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  }
+:root[data-theme='dark'] {
+  --bg: #0f1216;
+  --bg-soft: #14181d;
+  --bg-card: #181d23;
+  --text-1: #eef1f4;
+  --text-2: #a3acb6;
+  --text-3: #6b747e;
+  --border: rgba(255, 255, 255, 0.1);
+  --accent: #0a84ff;
+  --accent-2: #4aa3ff;
+  --accent-fg: #0a0d10;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 * { box-sizing: border-box; }
@@ -69,6 +69,27 @@ h1, h2, h3 { line-height: 1.2; letter-spacing: -0.02em; }
   color: var(--text-1) !important;
 }
 .nav-gh:hover { border-color: var(--accent); }
+
+/* 主题 / 语言切换 */
+.nav-actions { display: flex; align-items: center; gap: 8px; margin-left: 4px; }
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-2);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.icon-btn:hover { color: var(--text-1); border-color: var(--accent); }
 
 /* ---- hero ---- */
 .hero {
@@ -145,14 +166,13 @@ h1, h2, h3 { line-height: 1.2; letter-spacing: -0.02em; }
 .card h3 { font-size: 16px; margin: 0 0 8px; }
 .card p { font-size: 13.5px; color: var(--text-2); margin: 0; }
 
-/* ---- download ---- */
+/* ---- download ----（无底色色块：留白 + 发丝分隔线，更克制） */
 .download {
   max-width: var(--maxw);
   margin: 70px auto;
-  padding: 44px 24px;
+  padding: 54px 24px 10px;
   text-align: center;
-  background: var(--bg-soft);
-  border-radius: 22px;
+  border-top: 1px solid var(--border);
 }
 .download-hint { color: var(--text-2); margin: 0 0 24px; }
 .dl-grid {

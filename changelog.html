@@ -6,6 +6,16 @@
     <title>xPic 更新日志</title>
     <meta name="description" content="xPic 各版本的更新内容（changelog）。" />
     <link rel="icon" href="./assets/icon.png" />
+    <!-- 在 CSS 生效前按 localStorage/系统设置主题，避免首屏闪烁 -->
+    <script>
+      (function () {
+        var t = localStorage.getItem('xpic-site-theme');
+        if (t !== 'light' && t !== 'dark') {
+          t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', t);
+      })();
+    </script>
     <link rel="stylesheet" href="./style.css" />
     <link rel="stylesheet" href="./changelog.css" />
   </head>
@@ -16,9 +26,9 @@
         <span>xPic</span>
       </a>
       <nav class="nav-links">
-        <a href="/#features">功能</a>
-        <a href="/#download">下载</a>
-        <a href="/changelog">更新日志</a>
+        <a href="/#features" data-i18n="nav.features">功能</a>
+        <a href="/#download" data-i18n="nav.download">下载</a>
+        <a href="/changelog" data-i18n="nav.changelog">更新日志</a>
         <a
           class="nav-gh"
           href="https://github.com/Xheldon/xPic/releases"
@@ -26,12 +36,16 @@
           rel="noreferrer"
           >Releases</a
         >
+        <span class="nav-actions">
+          <button type="button" class="icon-btn" id="lang-toggle" title="中 / EN">EN</button>
+          <button type="button" class="icon-btn" id="theme-toggle" aria-label="theme"></button>
+        </span>
       </nav>
     </header>
 
     <main class="cl-main">
-      <h1>更新日志</h1>
-      <p class="cl-sub">
+      <h1 data-i18n="cl.title">更新日志</h1>
+      <p class="cl-sub" data-i18n="cl.sub">
         最新版本会自动从
         <a href="https://github.com/Xheldon/xPic/releases" target="_blank" rel="noreferrer">GitHub Releases</a>
         读取；早期 Beta 版本为历史归档。
@@ -45,7 +59,7 @@
       <span>© <span id="year"></span> Xheldon · MIT</span>
       <span class="foot-links">
         <a href="https://github.com/Xheldon/xPic" target="_blank" rel="noreferrer">GitHub</a>
-        <a href="/">首页</a>
+        <a href="/" data-i18n="nav.home">首页</a>
       </span>
     </footer>
 
