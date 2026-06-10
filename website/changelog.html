@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>xPic 更新日志</title>
+    <meta name="description" content="xPic 各版本的更新内容（changelog）。" />
+    <link rel="icon" href="./assets/icon.png" />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./changelog.css" />
+  </head>
+  <body>
+    <header class="nav">
+      <a class="brand" href="/">
+        <img src="./assets/icon.png" alt="xPic" width="28" height="28" />
+        <span>xPic</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/#features">功能</a>
+        <a href="/#download">下载</a>
+        <a href="/changelog">更新日志</a>
+        <a
+          class="nav-gh"
+          href="https://github.com/Xheldon/xPic/releases"
+          target="_blank"
+          rel="noreferrer"
+          >Releases</a
+        >
+      </nav>
+    </header>
+
+    <main class="cl-main">
+      <h1>更新日志</h1>
+      <p class="cl-sub">
+        最新版本会自动从
+        <a href="https://github.com/Xheldon/xPic/releases" target="_blank" rel="noreferrer">GitHub Releases</a>
+        读取；早期 Beta 版本为历史归档。
+      </p>
+      <div id="changelog" class="cl-list">
+        <p class="cl-loading">加载中…</p>
+      </div>
+    </main>
+
+    <footer class="foot">
+      <span>© <span id="year"></span> Xheldon · MIT</span>
+      <span class="foot-links">
+        <a href="https://github.com/Xheldon/xPic" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="/">首页</a>
+      </span>
+    </footer>
+
+    <script type="module" src="./changelog.js"></script>
+  </body>
+</html>

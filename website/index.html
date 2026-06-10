@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>xPic — 简洁强大的图片格式转换 / 压缩 / 裁剪工具</title>
+    <meta
+      name="description"
+      content="xPic 是一款 macOS / Windows 桌面应用，支持图片格式转换、压缩、裁剪、序列帧合成、SVGA 预览、视频转动图与工作流，本地处理、快速、隐私安全。"
+    />
+    <link rel="icon" href="./assets/icon.png" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header class="nav">
+      <a class="brand" href="/">
+        <img src="./assets/icon.png" alt="xPic" width="28" height="28" />
+        <span>xPic</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#features">功能</a>
+        <a href="#download">下载</a>
+        <a href="/changelog">更新日志</a>
+        <a
+          class="nav-gh"
+          href="https://github.com/Xheldon/xPic/releases"
+          target="_blank"
+          rel="noreferrer"
+          >Releases</a
+        >
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="badge" id="version-badge">桌面应用 · macOS / Windows</div>
+          <h1>把图片<em>转</em>、<em>压</em>、<em>裁</em>，一个应用搞定</h1>
+          <p class="lead">
+            格式转换、批量压缩、裁剪缩放、序列帧合成、SVGA 预览、视频转动图，
+            还有可编排的<strong>工作流</strong>。全部本地处理，快、稳、隐私安全。
+          </p>
+          <div class="cta" id="download-top">
+            <a class="btn btn-primary" id="primary-dl" href="#download">
+              下载 xPic
+            </a>
+            <a
+              class="btn btn-ghost"
+              href="https://github.com/Xheldon/xPic"
+              target="_blank"
+              rel="noreferrer"
+              >GitHub</a
+            >
+          </div>
+          <div class="cta-sub" id="primary-dl-sub"></div>
+        </div>
+        <div class="hero-shot">
+          <img
+            src="./assets/screenshot.png"
+            alt="xPic 界面截图"
+            onerror="this.style.display='none'"
+          />
+        </div>
+      </section>
+
+      <section id="features" class="features">
+        <h2>它能做什么</h2>
+        <div class="grid">
+          <div class="card"><h3>格式转换</h3><p>JPG/PNG/WebP/AVIF/HEIC/GIF 等互转，支持动图与批量。</p></div>
+          <div class="card"><h3>图片压缩</h3><p>可控质量批量压缩，webp/gif 动图也能压。</p></div>
+          <div class="card"><h3>图片裁剪</h3><p>比例 / 自由 / 固定尺寸 / 按目标大小（自动找质量）。</p></div>
+          <div class="card"><h3>序列帧合成</h3><p>多张图合成动态 WebP，自定义循环与帧间隔。</p></div>
+          <div class="card"><h3>SVGA 预览</h3><p>直接在应用里预览 SVGA 动画。</p></div>
+          <div class="card"><h3>视频处理</h3><p>视频格式转换、压缩、转 GIF/WebP/APNG 动图。</p></div>
+          <div class="card"><h3>工作流</h3><p>把转换/压缩/裁剪/合成串成一条流水线，一键跑完。</p></div>
+          <div class="card"><h3>本地 &amp; 隐私</h3><p>全部在你电脑上处理，文件不上传任何服务器。</p></div>
+        </div>
+      </section>
+
+      <section id="download" class="download">
+        <h2>下载</h2>
+        <p class="download-hint" id="download-version">正在获取最新版本…</p>
+        <div class="dl-grid" id="dl-grid">
+          <!-- 下载按钮由 JS 从 GitHub Releases API 注入 -->
+        </div>
+        <p class="download-foot">
+          所有安装包来自
+          <a
+            href="https://github.com/Xheldon/xPic/releases/latest"
+            target="_blank"
+            rel="noreferrer"
+            >GitHub Releases</a
+          >，永远是最新版。macOS 已签名公证；Windows 安装时可自选安装目录。
+        </p>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <span>© <span id="year"></span> Xheldon · MIT</span>
+      <span class="foot-links">
+        <a href="https://github.com/Xheldon/xPic" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="/changelog">更新日志</a>
+        <a href="https://www.xheldon.com/about/" target="_blank" rel="noreferrer">关于作者</a>
+      </span>
+    </footer>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
