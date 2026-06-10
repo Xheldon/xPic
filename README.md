@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./website/assets/icon.png" width="96" alt="xPic" />
+  <img src="./assets/icon.png" width="96" alt="xPic" />
 </p>
 
 <h1 align="center">xPic</h1>
@@ -18,13 +18,22 @@
 
 ## 这是什么仓库
 
-本仓库承载 xPic 的 **安装包发布(Releases)** 与 **官网静态站**(`website/` 子目录):
+本仓库承载 xPic 的 **安装包发布(Releases)** 与 **官网静态站**(仓库根目录):
 
 - 安装包由私有源码仓库的 CI(electron-builder)自动构建并发布到本仓库的 Releases,
   含 macOS(Apple Silicon / Intel,dmg+zip)与 Windows(NSIS 安装器,可自选安装目录)。
 - 应用内的自动更新(electron-updater)亦从本仓库 Releases 拉取 `latest*.yml` 与增量包。
-- 官网经 Cloudflare Pages 部署,构建输出目录指向 `website/`,
-  页面通过 GitHub API 实时读取最新 Release 的版本号与下载地址,发版后官网无需改动。
+- 官网为纯静态站(无构建步骤),直接放在仓库根目录:
+  - `index.html` / `style.css` / `app.js` — 落地页,客户端读 GitHub Releases API
+    动态填充最新版本号与下载地址,**发版即最新,无需重建官网**
+  - `changelog.html` — 更新日志(v1.0.x 历史归档 + 自动追加新 Releases 的 release notes)
+  - `latest-release.mjs` — 读取最新 release 的可复用函数
+
+## 官网部署(Cloudflare Pages)
+
+1. CF Pages → 连接本仓库 → **构建命令留空**、**输出目录填 `/`(或留空)**。
+2. 绑定域名。
+3. 之后发版下载按钮与更新日志自动更新,无需重新部署。
 
 ## 功能一览
 
