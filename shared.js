@@ -36,9 +36,21 @@ export function initChrome(dicts, onChange) {
       const key = el.getAttribute('data-i18n');
       if (dict[key] != null) el.innerHTML = dict[key];
     });
-    if (dict['meta.title']) document.title = dict['meta.title'];
-    const desc = document.querySelector('meta[name="description"]');
-    if (desc && dict['meta.desc']) desc.setAttribute('content', dict['meta.desc']);
+    const setMeta = (attr, key, value) => {
+      document.querySelector(`meta[${attr}="${key}"]`)?.setAttribute('content', value);
+    };
+    if (dict['meta.title']) {
+      document.title = dict['meta.title'];
+      setMeta('property', 'og:title', dict['meta.title']);
+      setMeta('name', 'twitter:title', dict['meta.title']);
+    }
+    if (dict['meta.desc']) {
+      setMeta('name', 'description', dict['meta.desc']);
+      setMeta('property', 'og:description', dict['meta.desc']);
+      setMeta('name', 'twitter:description', dict['meta.desc']);
+    }
+    setMeta('property', 'og:locale', lang === 'zh' ? 'zh_CN' : 'en_US');
+    setMeta('property', 'og:locale:alternate', lang === 'zh' ? 'en_US' : 'zh_CN');
     const langBtn = document.getElementById('lang-toggle');
     if (langBtn) langBtn.textContent = lang === 'zh' ? 'EN' : '中';
   };
